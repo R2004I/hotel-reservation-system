@@ -17,4 +17,5 @@ public interface UserService {
     public UserEntity changePassword(Long userId, String newPassword) throws UserNotFound;
     public UserEntity getUserDetails(Long userId) throws UserNotFound;
     public List<UserEntity> getAllUserDetails() throws UserNotFound;
+    public String deleteUser(Long id);
 }

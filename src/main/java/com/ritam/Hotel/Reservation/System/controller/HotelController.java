@@ -14,7 +14,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
 
-@CrossOrigin(origins = "http://localhost:8080")
 @RestController
 @RequestMapping("hotel")
 public class HotelController {
@@ -31,7 +30,7 @@ public class HotelController {
         this.mapper = mapper;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+
     @PostMapping("/add")
     public ResponseEntity<Hotel> addHotel(
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader,
@@ -40,7 +39,6 @@ public class HotelController {
     {
         if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
             String token = authorizationHeader.substring(7);
-
             if(jwt.validateToken(token)){
                 HotelDTO hotelDTO = mapper.readValue(hotel,HotelDTO.class);
                 Hotel newHotel = hotelService.addHotel(hotelDTO,imageFile);
@@ -87,7 +85,7 @@ public class HotelController {
         return ResponseEntity.ok(hotels);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+
     @DeleteMapping("/delete/{hotelId}")
     public ResponseEntity<String> deleteHotel(
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader,

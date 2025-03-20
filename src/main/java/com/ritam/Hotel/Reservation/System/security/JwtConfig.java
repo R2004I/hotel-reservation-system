@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.function.Function;
 
 @Component
 public class JwtConfig {
@@ -23,6 +24,8 @@ public String generateToken(String username)
             .compact();
     return token;
 }
+
+
 
     public boolean validateToken(String token)
     {

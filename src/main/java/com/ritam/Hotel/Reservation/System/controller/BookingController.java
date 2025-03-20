@@ -29,7 +29,6 @@ public class BookingController {
         this.jwt = jwt;
     }
 
-    @PreAuthorize("hasAuthority('USER')")
     @PostMapping("/user/{email}/room/{roomId}")
     public ResponseEntity<?> createReservation(
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader,
@@ -54,7 +53,6 @@ public class BookingController {
         }
     }
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @DeleteMapping("/{bookingId}")
     public ResponseEntity<String> cancelReservation(
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader,
@@ -74,7 +72,6 @@ public class BookingController {
         }
     }
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @DeleteMapping("delete/{bookingId}")
     public ResponseEntity<String> DeleteReservation(
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader,
@@ -94,7 +91,6 @@ public class BookingController {
         }
     }
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @GetMapping("/{bookingId}")
     public ResponseEntity<Booking> getReservationById(
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader,
@@ -114,7 +110,6 @@ public class BookingController {
         }
     }
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<Booking>> getReservationsByUser(
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader,
@@ -134,7 +129,6 @@ public class BookingController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/room/{roomId}")
     public ResponseEntity<?> getReservationsByRoom(
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader,
@@ -155,7 +149,6 @@ public class BookingController {
         }
     }
 
-    @PreAuthorize("hasAuthority('USER')")
     @GetMapping("/{bookingId}/price")
     public ResponseEntity<Double> calculateTotalPrice(@PathVariable Long bookingId) {
         double totalPrice = bookingService.calculateTotalPrice(bookingId);

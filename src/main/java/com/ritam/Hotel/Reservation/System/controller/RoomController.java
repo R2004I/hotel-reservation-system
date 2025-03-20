@@ -101,16 +101,6 @@ public class RoomController {
         }else{
             return new ResponseEntity<>(HttpStatus.valueOf("Authorization header is missing or malformed!"));
         }
-
-
-
-
-
-
-
-
-
-
     }
 
     @GetMapping("/hotel/{hotelId}/available")

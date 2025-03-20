@@ -42,16 +42,15 @@ public class UserController {
 
     }
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
+
     @PutMapping("/user/{userId}/password")
-    public ResponseEntity<UserEntity> changePassword(@PathVariable Long userId, @RequestParam String newPassword)
+    public ResponseEntity<UserEntity> changePassword(@RequestParam("id") Long userId, @RequestParam("password") String newPassword)
     {
             UserEntity user = userService.changePassword(userId, newPassword);
             return ResponseEntity.ok(user);
     }
 
 
-    @PreAuthorize("hasAuthority('USER') or hasAuthority('ADMIN')")
     @GetMapping("/user/{userId}")
     public ResponseEntity<UserEntity> getUserDetails(
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader,
@@ -72,7 +71,6 @@ public class UserController {
         }
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/user/all")
     public ResponseEntity<List<UserEntity>> getAllUsers(
             @RequestHeader(value = "Authorization", required = false) String authorizationHeader
@@ -88,6 +86,23 @@ public class UserController {
                 return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
             } }
         else {
+            return new ResponseEntity<>(HttpStatus.valueOf("Authorization header is missing or malformed!"));
+        }
+    }
+    @DeleteMapping("/delete/user")
+    public ResponseEntity<String> deleteUser(
+            @RequestHeader(value = "Authorization", required = false) String authorizationHeader,
+            @RequestParam("id") Long id)
+    {
+        if(authorizationHeader != null && authorizationHeader.startsWith("Bearer ")){
+            String token = authorizationHeader.substring(7);
+            if(jwt.validateToken(token)){
+                String s = userService.deleteUser(id);
+                return ResponseEntity.status(HttpStatus.OK).body(s);
+            }else{
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
+        } else{
             return new ResponseEntity<>(HttpStatus.valueOf("Authorization header is missing or malformed!"));
         }
     }
